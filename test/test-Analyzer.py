@@ -25,7 +25,7 @@ process.load("L1Trigger.Run2Ntuplizer.l1TRun2Ntuplizer_cfi")
 process.l1NtupleProducer.isData = cms.bool(False)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(-1)
 )
 
 # Input source
@@ -49,16 +49,16 @@ process.configurationMetadata = cms.untracked.PSet(
 )
 
 # Output definition
-process.endOfProcess = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string("l1TFullEvent.root"),
-    outputCommands = cms.untracked.vstring('drop *')
-                                        #'keep *_*_*_L1TCaloSummaryTest')
-    #outputCommands = cms.untracked.vstring('drop *', 'keep *_l1tCaloLayer1Digis_*_*, keep *_*_*_L1TCaloSummaryTest' )
-)
+#process.endOfProcess = cms.OutputModule("PoolOutputModule",
+#    fileName = cms.untracked.string("l1TFullEvent.root"),
+#    outputCommands = cms.untracked.vstring('drop *')
+#                                        #'keep *_*_*_L1TCaloSummaryTest')
+#    #outputCommands = cms.untracked.vstring('drop *', 'keep *_l1tCaloLayer1Digis_*_*, keep *_*_*_L1TCaloSummaryTest' )
+#)
 
 process.TFileService = cms.Service(
     "TFileService",
-    fileName = cms.string("analyzer.root")
+    fileName = cms.string("test-analyzer.root")
 )
 
 # Other statements
@@ -67,11 +67,11 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '106X_upgrade2018_realistic_v11
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
-process.endjob_step = cms.EndPath(process.endOfProcess)
+#process.endjob_step = cms.EndPath(process.endOfProcess)
 
 # Schedule definition
 process.p = cms.Path(process.l1NtupleProducer)
-process.schedule = cms.Schedule(process.raw2digi_step, process.p, process.endjob_step)
+process.schedule = cms.Schedule(process.raw2digi_step, process.p)#, process.endjob_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 

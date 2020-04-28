@@ -44,8 +44,7 @@ void Run2Ntuplizer::createBranchesTau(TTree *tree){
   tree->Branch("l1TauPt",       &l1TauPt,   "l1TauPt/D");
   tree->Branch("l1TauEta",      &l1TauEta,  "l1TauEta/D");
   tree->Branch("l1TauPhi",      &l1TauPhi,  "l1TauPhi/D");
-
-  tree->Branch("l1IsoEt",       &l1IsoEt,   "l1IsoEt/I"); 
+  tree->Branch("l1TauIsoEt",       &l1TauIsoEt,   "l1TauIsoEt/I"); 
   
   tree->Branch("recoTauPt",     &recoTauPt, "recoTauPt/D");
   tree->Branch("recoTauEta",    &recoTauEta,"recoTauEta/D");
@@ -172,18 +171,20 @@ void Run2Ntuplizer::analyze( const Event& evt, const EventSetup& es )
     l1TauPt  = -99;
     l1TauEta = -99;
     l1TauPhi = -99;
-    l1IsoEt  = -99;
+    l1TauIsoEt  = -99;
     
     for(unsigned int i = 0; i < l1TausSorted.size(); i++){
       if(( reco::deltaR(l1TausSorted.at(i).eta(), l1TausSorted.at(i).phi(), 
 			recoTauEta, recoTauPhi) < 0.5 )
 	 && (l1TausSorted.at(i).pt() > l1TauPt))
 	{
-	  l1TauPt  = l1TausSorted.at(i).pt();
+	  l1TauPt  = l1TausSorted.at(i).pt(); // same thing as the p4().Et()
 	  l1TauEta = l1TausSorted.at(i).eta();
 	  l1TauPhi = l1TausSorted.at(i).phi();
-	  l1IsoEt  = l1TausSorted.at(i).isoEt(); 
-	  cout << "=== Matched l1Tau : " << l1TauPt << " Eta: " << l1TauEta << " Phi: " << l1TauPhi << " IsoEt: " << l1IsoEt << " === " << endl;
+	  l1TauIsoEt  = l1TausSorted.at(i).isoEt(); 
+
+	  
+	  cout << "=== Matched l1Tau : " << l1TauPt << " Eta: " << l1TauEta << " Phi: " << l1TauPhi << " IsoEt: " << l1TauIsoEt << " === " << endl;
 
 	}
     }
@@ -221,7 +222,7 @@ void Run2Ntuplizer::zeroOutAllVariables(){
 
   recoTauPt = -99;  recoTauEta = -99;  recoTauPhi = -99;  recoTauDM = -99;
   l1TauPt   = -99;  l1TauEta   = -99;  l1TauPhi   = -99;  
-  l1IsoEt   = -99;
+  l1TauIsoEt  = -99;
   genTauPt  = -99;  genTauEta  = -99;  genTauPhi  = -99;  genTauDM  = -99;
 
 };

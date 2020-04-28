@@ -19,7 +19,8 @@ void makeEfficienciesPlot(void)
 
   /* Load the TTree. */
   TString treePath = "l1NtupleProducer/Stage2/efficiencyTree";
-  TString rootFileDirectory = "../test/analyzer.root";
+  //  TString rootFileDirectory = "../test/analyzer.root";
+  TString rootFileDirectory = "/scratch/skkwan/Run2Ntuplizer/2020-Apr-27_Run2_ggHtautau.root";
   TString outputDirectory = "plots/";
 
   float xMin, xMax;
@@ -71,7 +72,7 @@ void makeEfficienciesPlot(void)
   plotNEfficiencies(vGraphs, vLabels, vColors,
 		    "Reco #tau_{H} p_{T} [GeV]",
 		    "Run II L1 Taus",                                                                                
-		    "efficiency_test.png",                                                       
+		    "efficiency_noIso.png",        
 		    outputDirectory);    
 
   /*

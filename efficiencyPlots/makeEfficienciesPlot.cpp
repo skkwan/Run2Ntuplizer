@@ -26,19 +26,18 @@ void makeEfficienciesPlot(void)
   float xMin, xMax;
   TString recoCut, l1Cut;
 
+  std::vector<TGraphAsymmErrors*> vGraphs;
+  std::vector<TString> vLabels;
+  std::vector<int> vColors;
+
   /*******************************************************/
   /* efficiency as a function of recoPt                  */
   /*******************************************************/
 
   xMin = 0;
   xMax = 100;
-  recoCut = "recoTauPt>10 && genTauPt>10";
-  l1Cut   = "recoTauPt>10 && genTauPt>10 && l1TauPt>0";
-  
-  std::vector<TGraphAsymmErrors*> vGraphs;
-  std::vector<TString> vLabels;
-  std::vector<int> vColors;
-
+  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9";
+  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && l1TauPt>0";
 
   TGraphAsymmErrors* recoTauPtLoose = calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
 							  l1Cut + "&& l1IsoEt < 15",
@@ -64,62 +63,61 @@ void makeEfficienciesPlot(void)
   TGraphAsymmErrors* recoTauPtAll = calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
 							l1Cut,
 							recoCut, xMin, xMax, true);
-
   vGraphs.push_back(recoTauPtAll);
   vLabels.push_back("All");
   vColors.push_back(kAzure+1);
 
   plotNEfficiencies(vGraphs, vLabels, vColors,
 		    "Reco #tau_{H} p_{T} [GeV]",
-		    "Run II L1 Taus",                                                                                
-		    "efficiency_noIso.png",        
+		    "Run II L1 Taus",                                                                
+		    "efficiency_recoPt_fullDetector.png",        
 		    outputDirectory);    
-
-  /*
-    plotFiveHists(
-		recoTauPtNoBDT, "All", kAzure+1,
-		recoTauPtTight, "L1 iso E_{T} < 5", kBlue-3,
-		recoTauPtMedium, "L1 iso E_{T} < 10", kViolet-5,
-		recoTauPtLoose, "L1 iso E_{T} < 15", kPink+8,
-		recoTauPtVLoose, "L1 iso E_{T} < 20", kPink+6,
-		"Reco #tau_{H} p_{T} [GeV]",
-		"Run II L1 Taus",
-		"efficiency_test.png",
-		outputDirectory);
-  */
-
-
-
-
-    
+  
   /*******************************************************/
   /* efficiency as a function of recoEta                 */
   /*******************************************************/
-  /*  xMin = -3;
+  xMin = -3;
   xMax = 3;
   
-  recoCut = "recoTauPt>30 && genPt>20 && l1Track_pt>10 && genDM>9";
-  l1Cut   = "recoTauPt>30 && genPt>20 && l1Track_pt>10 && genDM>9 && l1TauPt>10";
+  recoCut = "recoTauPt>10 && genTauPt>20 && genTauDM>9";
+  l1Cut   = "recoTauPt>10 && genTauPt>20 && genTauDM>9 && l1TauPt>0";
 
-  TGraphAsymmErrors* effVsRecoEta90 = calculateEfficiency("recoEta", treePath, rootFileDirectory,
-							  l1Cut + "&& (l1BDTDisriminant > -0.0435867)",
-							  recoCut, xMin, xMax, false);
-  TGraphAsymmErrors* effVsRecoEta95 = calculateEfficiency("recoEta", treePath, rootFileDirectory,
-                                                          l1Cut + "&& (l1BDTDisriminant > -0.0486184)",
-							  recoCut, xMin, xMax, false);
-  TGraphAsymmErrors* effVsRecoEtaNoBDT = calculateEfficiency("recoEta", treePath, rootFileDirectory, 
-							     l1Cut,
-							     recoCut, xMin, xMax, false);
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
 
-  plotThreeHists(
-		 effVsRecoEta90, "BDT Loose",
-		 effVsRecoEta95, "BDT VLoose",
-		 effVsRecoEtaNoBDT, "No BDT",
-		 "Reco #tau_{H} #eta",
-		 "Phase 2 L1 Taus (all #tau_{H} decay modes)",
-		 "effVsRecoEta_allDM_l1TracksPt10.png",
-		 outputDirectory);
-  */
+  TGraphAsymmErrors* recoTauEtaLoose = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							   l1Cut + "&& l1IsoEt < 15",
+							   recoCut, xMin, xMax, false);
+  vGraphs.push_back(recoTauEtaLoose);
+  vLabels.push_back("L1 iso E_{T} < 15");
+  vColors.push_back(kBlue-3);
+
+  TGraphAsymmErrors* recoTauEtaMedium = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							    l1Cut + "&& l1IsoEt < 10",
+							    recoCut, xMin, xMax, false);
+  vGraphs.push_back(recoTauEtaMedium);
+  vLabels.push_back("L1 iso E_{T} < 10");
+  vColors.push_back(kViolet-5);
+  
+  TGraphAsymmErrors* recoTauEtaTight = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							   l1Cut + "&& l1IsoEt < 5",
+							   recoCut, xMin, xMax, false);
+  vGraphs.push_back(recoTauEtaTight);
+  vLabels.push_back("L1 iso E_{T} < 5");
+  vColors.push_back(kPink+6);
+
+  TGraphAsymmErrors* recoTauEtaAll = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							 l1Cut,
+							 recoCut, xMin, xMax, false);
+  vGraphs.push_back(recoTauEtaAll);
+  vLabels.push_back("All");
+  vColors.push_back(kAzure+1);
+
+  plotNEfficiencies(vGraphs, vLabels, vColors,
+		    "Reco #tau_{H} #eta",
+		    "Run II L1 Taus",                                                                
+		    "efficiency_recoEta_fullDetector.png",        
+		    outputDirectory);    
+
 }
 
 

@@ -92,7 +92,6 @@ void plotNEfficiencies(std::vector<TGraphAsymmErrors*> graphs,
   histDummy->GetXaxis()->SetTitleSize(0.06); // default is 0.03                                                                    
   /* Set y-axis limits */
   histDummy->GetYaxis()->SetRangeUser(0.0, 1.1);
-  histDummy->GetXaxis()->SetRangeUser(-3.0, 3.0);
 
   /* Customize legend */
   for (itGraph = graphs.begin(), itLabel = labels.begin();

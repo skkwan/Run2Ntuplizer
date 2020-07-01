@@ -25,7 +25,7 @@ process.load("L1Trigger.Run2Ntuplizer.l1TRun2Ntuplizer_cfi")
 process.l1NtupleProducer.isData = cms.bool(False)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(200)
 )
 
 # Input source
@@ -110,3 +110,22 @@ process = customiseEarlyDelete(process)
 
 dump_file = open('dump.py','w')
 dump_file.write(process.dumpPython())
+
+
+
+# TEMPORARY: testing batch job submission
+process.source.secondaryFileNames = cms.untracked.vstring( 
+ "root://cms-xrd-global.cern.ch//store/mc/RunIISpring15DR74/GluGluHToTauTau_M125_13TeV_powheg_pythia8/GEN-SIM-RAW/AsymptFlat10to50bx25Raw_MCRUN2_74_V9-v1/50000/021091E2-0740-E511-AC34-0025905A60AA.root") 
+process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange("1:4172","1:4192","1:3008","1:3011","1:4173","1:5238","1:3010","1:4193","1:5276","1:3009","1:5275","1:5277")
+
+
+process.source.fileNames = cms.untracked.vstring( 
+ 'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/FE23B380-E67C-E511-81CE-0030487BB7E4.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/F0BA0870-E67C-E511-9167-20CF305B05A8.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/EA39F988-E67C-E511-AFF2-003048335548.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/BED62419-E77C-E511-8ED8-002590D9D822.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/6C832D70-E67C-E511-A550-20CF305B05A8.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/629D1870-E67C-E511-8044-20CF305B05A8.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/14420E8D-E67C-E511-B7CB-00304867FD77.root',
+'root://cmsxrootd.fnal.gov//store/mc/RunIISpring15MiniAODv2/GluGluHToTauTau_M125_13TeV_powheg_pythia8/MINIAODSIM/AsymptFlat10to50bx25Raw_74X_mcRun2_asymptotic_v2-v1/80000/122332F8-E67C-E511-977F-003048D334C7.root'
+)

@@ -87,7 +87,7 @@ TGraphAsymmErrors* calculateEfficiency(TString variable,
   TH1F* Denom;
   int bins = 15;
   // Float_t xbins[10] = {0, 5, 10, 20, 25, 30, 50, 70, 100, 200};
-  Float_t xbins[16] = {0, 5, 10, 20, 21, 22, 23, 24, 25, 30, 40, 50, 60, 70, 90, 110};
+  Float_t xbins[11] = {20, 25, 30, 35, 40, 45, 50, 60, 70, 90, 110};
   int nVarBins = (int) sizeof(xbins)/sizeof(xbins[0]) - 1;
 
   if(variableBin)

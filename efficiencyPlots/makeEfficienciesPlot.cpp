@@ -36,8 +36,8 @@ void makeEfficienciesPlot(void)
 
   xMin = 0;
   xMax = 100;
-  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9";
-  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && l1TauPt>0";
+  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1 && l1TauPt>0";
 
   TGraphAsymmErrors* recoTauPtLoose = calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
 							  l1Cut + "&& l1IsoEt < 15",
@@ -79,8 +79,8 @@ void makeEfficienciesPlot(void)
   xMin = -3;
   xMax = 3;
   
-  recoCut = "recoTauPt>10 && genTauPt>20 && genTauDM>9";
-  l1Cut   = "recoTauPt>10 && genTauPt>20 && genTauDM>9 && l1TauPt>0";
+  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1 && l1TauPt>0";
 
   vGraphs.clear();  vLabels.clear();  vColors.clear();
 
@@ -118,7 +118,98 @@ void makeEfficienciesPlot(void)
 		    "efficiency_recoEta_fullDetector.png",        
 		    outputDirectory);    
 
+
+
+  /*******************************************************/
+  /* efficiency as a function of recoPt                  */
+  /*******************************************************/
+
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
+  
+  xMin = 10;
+  xMax = 110;
+  
+  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  
+  //
+  TGraphAsymmErrors* recoPtInclusive30 = calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
+							     l1Cut + "&& l1TauPt>30",
+							     recoCut + "&& recoTauPt>30", 
+							     xMin, xMax, true);
+  vGraphs.push_back(recoPtInclusive30);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 30 GeV");
+  vColors.push_back(kBlack);
+
+  // 
+  TGraphAsymmErrors* recoPtInclusive34 = calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
+                                                             l1Cut + "&& l1TauPt>34",
+                                                             recoCut + "&& recoTauPt>34",
+                                                             xMin, xMax, true);
+  vGraphs.push_back(recoPtInclusive34);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 34 GeV");
+  vColors.push_back(kRed);
+
+  TGraphAsymmErrors* recoPtInclusive38 =calculateEfficiency("recoTauPt", treePath, rootFileDirectory,
+							    l1Cut + "&& l1TauPt>38",
+							    recoCut + "&& recoTauPt>38",
+							    xMin, xMax, true);
+  vGraphs.push_back(recoPtInclusive38);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 38 GeV");
+  vColors.push_back(kBlue);
+
+  // Plot
+  plotNEfficiencies(vGraphs, vLabels, vColors,
+                    "Reco #tau_{H} p_{T} [GeV]",
+                    "Run II L1 Taus",
+                    "efficiency_recoPt_twiki.png",
+                    outputDirectory);
+
+  /*******************************************************/
+  /* efficiency as a function of recoEta (DPG)           */
+  /*******************************************************/
+
+  vGraphs.clear();  vLabels.clear();  vColors.clear();
+  
+  xMin = -3;
+  xMax = 3;
+
+  recoCut = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  l1Cut   = "recoTauPt>10 && genTauPt>10 && genTauDM>9 && abs(recoTauEta)<2.1";
+  
+  //
+  TGraphAsymmErrors* recoEtaInclusive30 = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							     l1Cut + "&& l1TauPt>30",
+							     recoCut + "&& recoTauPt>30", 
+							     xMin, xMax, false);
+  vGraphs.push_back(recoEtaInclusive30);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 30 GeV");
+  vColors.push_back(kBlack);
+
+  // 
+  TGraphAsymmErrors* recoEtaInclusive34 = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+                                                             l1Cut + "&& l1TauPt>34",
+                                                             recoCut + "&& recoTauPt>34",
+                                                             xMin, xMax, false);
+  vGraphs.push_back(recoEtaInclusive34);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 34 GeV");
+  vColors.push_back(kRed);
+
+  TGraphAsymmErrors* recoEtaInclusive38 = calculateEfficiency("recoTauEta", treePath, rootFileDirectory,
+							      l1Cut + "&& l1TauPt>38",
+							      recoCut + "&& recoTauPt>38",
+							      xMin, xMax, false);
+  vGraphs.push_back(recoEtaInclusive38);
+  vLabels.push_back("Inclusive, E_{T}^{#tau, L1} > 38 GeV");
+  vColors.push_back(kBlue);
+
+  // Plot
+  plotNEfficiencies(vGraphs, vLabels, vColors,
+                    "Reco #tau_{H} #eta",
+                    "Run II L1 Taus",
+                    "efficiency_recoEta_twiki.png",
+                    outputDirectory);
+
+  
 }
-
-
 /*********************************************************************/
